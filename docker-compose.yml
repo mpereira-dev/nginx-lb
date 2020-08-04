@@ -1,0 +1,31 @@
+version: '3.2'
+services:
+    app1:  
+        build: ./app
+        tty: true
+        volumes:
+            - './app/src:/app'  
+    app2:  
+        build: ./app
+        tty: true
+        volumes:
+            - './app/src:/app'  
+    app3:  
+        build: ./app
+        tty: true
+        volumes:
+            - './app/src:/app'  
+    loadbalancer:
+        build: ./load-balancer
+        tty: true
+        volumes:
+            - './load-balancer/nginx.conf:/etc/nginx/nginx.conf'    # Mount the nginx config
+        links:                                                      # Wait for + allows use of names in nginx.config
+            - app1
+            - app2
+            - app3
+        ports:
+            - '8080:8080'                                           # Bind container port to host port
+
+volumes:
+  app:
