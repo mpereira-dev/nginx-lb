@@ -1,3 +1,5 @@
+# Define 3 app instances to which requests will be forwarded from the load balancer (Nginx).
+# Services listen on port 3000, load balancer forwards frm 8080 to one of the services based on LB strategy.
 version: '3.2'
 services:
     app1:  

@@ -1,3 +1,4 @@
+# A pretty bare bones Nginx Dockerfile
 FROM nginx
 LABEL Miguel Pereira
 # Don't need to copy in config since we use a volumn to mount it.

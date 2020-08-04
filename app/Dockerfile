@@ -1,3 +1,5 @@
+# A typical Node application running in a Docker container
+# TODO would be nice to enable nodemon for pickup up changes during development
 FROM node:boron
 LABEL Miguel Pereira
 # Create the working directory
@@ -7,7 +9,6 @@ WORKDIR /app
 # Copy over the app and install dependencies
 COPY src/package.json /app
 RUN npm install
-# RUN npm install -g nodemon # TODO
 # COPY src /app # Don't need to copy the source since we use volume to mount the source.
 # Execute the index.js to launch the Express app.
 CMD ["node", "index.js"]
