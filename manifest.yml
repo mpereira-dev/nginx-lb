@@ -1,0 +1,24 @@
+# A deployment descriptor for PCF for a simple NodeJS app.
+---
+applications:
+- name: pcf-node-app
+  # The path relative to this manifest file where the app resides.
+  # The contents of this directory will be pused to PCF.
+  path: app/src
+  # Tell PCF that you want to use the NodeJS build pack.
+  buildpacks: ["nodejs_buildpack"]
+  # The simpliest way to run the node app
+  # command: node index.js
+  # You can also use a custom startup script. Place the script relative to path.
+  command: ./start.sh 
+  # Memory and Disk quotas...
+  memory: 4m
+  disk_quota: 128m
+  # Maintain 3 instances of this app running for high availability.
+  instances: 3
+  env:
+    # If USE_SESSION is toggled then enable client side session managment via cookie-session.
+    USE_SESSION: false
+    # You can use SESSION_COOKIE_NAME to configure the name of the session cookie.
+    # If none is specified and USE_SESSION is true the name will default to JSESSIONID.
+    SESSION_COOKIE_NAME: ''
