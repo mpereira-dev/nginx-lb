@@ -1,5 +1,5 @@
 #### Nginx Load Balancer Example
-This is a simple example project of how you can sue Nginx as a load balancer in front of your application.
+This is a simple example project of how you can use Nginx as a load balancer in front of your application.
 This example also includes a deployment descriptor for Pivotal Cloud Foundry and some configuration options
 that illustrate how PCF does the load balancing between multiple application instances for you out of the box.
 
@@ -24,11 +24,28 @@ on the exposed route and watch the response sycle through the app instances.
 
     cf push pcf-node-app
 
+##### Session Continuity
+
 If you want to see the PCF `session affinity` in action go to your app > settings > user provided environment variables > reveal 
 and set the `USE_SESSION` variable to true. Then restage or restart your app. When you navigate to the app via the exposed route
 you will notice that you start hitting the same app instance with each refresh of the browser and the app will count the number
 of times you have visited. You can examine the request in the browser network and notice the `set-cookie` header has a copule of values
 including `JESSIONID` and `VACAP_ID` which PCF uses to route you to the same app instance. 
+
+This `sticky session` feature is useful when you want the user to hit the same app every time. Note that since we are using a client
+side cookie to store the session information, the sticky sessionw will persist until it expires in 24hrs or you delete that cookie
+via your browser settings.
+
+##### Load Balancing
+
+Notice that the `manifest.yml` defines two PCF apps with the same configuration and the public route. This demonstrates that the PCF routing layer groups both application instances into a single upstream and load balances the request across all 6 instances.
+
+Note:
+*You will need to set the route in the manifest.yml for PCF to load balance across both apps!*
+
+    route: pcf-node-app.{your pcf domain here}
+
+Once you enable `session affinity` it might take a coule of refreshes but you will then be routed to the same instance even though they are split across 2 PCF apps.
 
 #### References
 * https://docs.cloudfoundry.org/buildpacks/node/index.html

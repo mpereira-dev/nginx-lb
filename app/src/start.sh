@@ -9,7 +9,7 @@ echo "[INFO] Container Environment Variables";
 echo "[INFO] USE_SESSION:          $USE_SESSION";
 echo "[INFO] SESSION_COOKIE_NAME:  $SESSION_COOKIE_NAME";
 echo "[INFO] VCAP_APPLICATION:     $VCAP_APPLICATION";
-echo "[INFO] VCAP_SERVICES:        $VCAP_APPLICATION";
+echo "[INFO] VCAP_SERVICES:        $VCAP_SERVICES";
 echo "----------------------------------------------------------------------------------------------------"
 
 # Run the NodeJS App.

@@ -1,7 +1,10 @@
 # A deployment descriptor for PCF for a simple NodeJS app.
+# Reference: https://docs.cloudfoundry.org/devguide/deploy-apps/manifest-attributes.html
+
 ---
-applications:
-- name: pcf-node-app
+
+# You can use YAML achors to minimize duplication.
+app: &app
   # The path relative to this manifest file where the app resides.
   # The contents of this directory will be pused to PCF.
   path: app/src
@@ -22,3 +25,18 @@ applications:
     # You can use SESSION_COOKIE_NAME to configure the name of the session cookie.
     # If none is specified and USE_SESSION is true the name will default to JSESSIONID.
     SESSION_COOKIE_NAME: ''
+  # Public routes make your app accessible to the internet
+  # Internal routes allow for inter app communication
+  # routes:
+    # Define a shared public route for both PCF apps. This illustrates the PCF behavior
+    # in that it will group both apps into 1 upstream and load balance between all 6 instances.
+    # - route: TODO add your public route here!
+
+# Define 2 PCF applications with the same configuration just different names.
+# Each app is configured to spin up 3 instances so 6 in total.
+# Since both apps are bound to the same public route PCF load balances across all 6 instances.
+applications:
+- name: pcf-node-app-1
+  <<: *app
+- name: pcf-node-app-2
+  <<: *app
